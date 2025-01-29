@@ -32,44 +32,30 @@
 .navbar .navbar-brand {	color: whitesmoke;
     font-size: 24px;}
 
-    .card {
-      perspective: 1000px; /* Adjust for 3D effect */
-      width: 200px; /* Adjust card width */
-      height: 200px; /* Adjust card height */
-  }
+    
+  .post-image-container {
+    max-width: 100%; /* Ensure the container doesn't overflow */
+    margin-bottom: 1rem; /* Add spacing below the image */
+}
 
-  .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s; /* Adjust transition duration */
-  }
+.post-image {
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners */
+}
 
-  .card:hover .card-inner {
-      transform: rotateY(180deg);
-  }
+/* Adjust image size for large screens */
+@media (min-width: 992px) {
+    .post-image {
+        width: 600px; /* Fixed width for large screens */
+        height: auto; /* Maintain aspect ratio */
+    }
+}
 
-  .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden; 
-  }
+.post-image {
+  transition: transform 0.2s ease-in-out; /* Smooth transition */
+}
 
-  .card-front {
-      background-color: #fff; 
-      color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center; 
-  }
-
-  .card-back {
-      background-color: #007bff; 
-      color: #fff;
-      transform: rotateY(180deg); 
-      display: flex;
-      justify-content: center;
-      align-items: center; 
-  }
-
+.post-image:hover {
+  transform: scale(1.02); /* Slightly enlarge the image on hover */
+}

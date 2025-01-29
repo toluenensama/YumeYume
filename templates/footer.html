@@ -21,6 +21,29 @@
             showMoreButton.classList.remove('d-none');
         });
 </script>
+
+<script>
+    function toggleLike(postId) {
+        fetch(`/like/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            const likeButton = document.getElementById(`like-button-${postId}`);
+            const likeCount = document.querySelector(`#like-button-${postId}`).parentElement.querySelector('small');
+            if (data.status === 'liked') {
+                likeButton.textContent = 'Unlike';
+            } else {
+                likeButton.textContent = 'Like';
+            }
+            likeCount.textContent = `${data.likes_count} Likes`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 </body>
 </html>
 

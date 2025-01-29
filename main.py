@@ -1,10 +1,10 @@
 import base64
 from flask import request, session, send_from_directory
-from flask import Flask, render_template, redirect, request, url_for, flash,g,abort,Response
+from flask import Flask, render_template, redirect, request, url_for, flash,g,abort,Response,jsonify
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from werkzeug.utils import secure_filename
-from datetime import date
+from datetime import date,datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from forms import CreatePostForm,UserForm,LogForm,CommentsForm
@@ -14,8 +14,12 @@ from functools import wraps
 import os
 from dotenv import find_dotenv,load_dotenv
 import requests
+
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'e9f49677f8a56c5468e3728f43f57a28f7e7e0211e3892498e844ea1da3d49536dc5693becb7'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 ALLOWED_EXTENSIONS = set(['txt','pdf','png','jpg','jpeg','gif'])
@@ -27,14 +31,27 @@ flask_bcrypt = Bcrypt()
 flask_bcrypt.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+gravatar = Gravatar(app,
+                    size=100,
+                    rating='g',
+                    default='retro',
+                    force_default=False,
+                    force_lower=False,
+                    use_ssl=False,
+                    base_url=None)
 # ckeditor = CKEditor()
 # ckeditor.init_app(app)
-CLIENT_id = "1d3beaba083f37a9a9942b68a8a6c2ed"
-TMDB_API_KEY  = "eab2dc7e1a81614bc0d9d2dbb108d8e8"
-API_READ_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlYWIyZGM3ZTFhODE2MTRiYzBkOWQyZGJiMTA4ZDhlOCIsIm5iZiI6MTczNDczMzIxMC43MTIsInN1YiI6IjY3NjVlZDlhMWIwNmM1ZjI4Yjc0YTNlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GXUfwKvfjmo7dXsb8p04ibF4VaAuhIeuNst9lieOAv8"
+CLIENT_id = os.getenv('CLIENT_id')
+TMDB_API_KEY  = os.getenv('TMDB_API_KEY')
+API_READ_KEY = os.getenv('API_READ_KEY')
 ##CONNECT TO DB
 
 ##CREATE TABLE IN DB
+likes = db.Table('likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('userpost.id'), primary_key=True),  # Updated to 'userpost.id'
+    db.Column('timestamp', db.DateTime, default=datetime.now)
+)
 class Users(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -44,6 +61,7 @@ class Users(UserMixin, db.Model):
     anime = db.relationship("UserAnime", back_populates="user") 
     manga = db.relationship("UserManga", back_populates="user")
     posts = db.relationship("UserPost", back_populates="author", cascade="all, delete-orphan")  
+    liked_posts = db.relationship('UserPost', secondary=likes, backref=db.backref('liked_by', lazy='dynamic'))
     def __repr__(self):
         return '<User %r>' % self.name
 
@@ -78,6 +96,10 @@ class UserManga(db.Model):
 
     def __repr__(self):
         return '<UserManga %r>' % self.name
+
+# class Likes(db.Model):
+#     __tablename__ = "likes"
+#     user_id = 
 
 class UserPost(db.Model):
     __tablename__ = "userpost"
@@ -344,6 +366,26 @@ def addshow():
         db.session.commit()
     return redirect(url_for('profile'))
     
+@app.route('/like/<int:post_id>', methods=['POST'])
+@login_required
+def like_post(post_id):
+    post = UserPost.query.get_or_404(post_id)
+    if current_user in post.liked_by:
+        # Unlike the post
+        post.liked_by.remove(current_user)
+        db.session.commit()
+        return jsonify({'status': 'unliked', 'likes_count': post.liked_by.count()})
+    else:
+        # Like the post
+        post.liked_by.append(current_user)
+        db.session.commit()
+        return jsonify({'status': 'liked', 'likes_count': post.liked_by.count()})
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    post = UserPost.query.get_or_404(post_id)
+    return render_template('post.html', post=post)
+
 
 @app.route("/addmanga",methods=["GET","POST"])
 @login_required

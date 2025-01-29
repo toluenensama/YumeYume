@@ -154,58 +154,60 @@
   </div>
 </div>
 </div>
-{% endif %}
-{% for post in all_posts %}
-<div class="post">
-    <!-- Post text -->
-    <p>{{ post.post }}</p>
+{% endif %} 
+<!-- Main Content -->
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            {% for post in all_posts %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <!-- Post Header -->
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ post.author.email | gravatar }}" alt="User Avatar" class="rounded-circle me-2" width="40" height="40">
+                        <div>
+                            <h6 class="mb-0">{{ current_user.name }}</h6>
+                            <small class="text-muted">{{ post.date }}</small>
+                        </div>
+                    </div>
 
-    <!-- Post image -->
-    {% if post.image %}
-    <img src="{{ url_for('serve_image', image_id=post.id) }}" alt="Post Image" class="post-image">
-    {% endif %}
+                    <!-- Post Image -->
+                    {% if post.image %}
+                    <div class="post-image-container mb-3">
+                        <img src="{{ url_for('serve_image', image_id=post.id) }}" alt="Post Image" class="img-fluid rounded">
+                    </div>
+                    {% endif %}
+                                        <!-- Post Content -->
+                    <p class="card-text">{{ post.post }}</p>
+                    <p class="card-text">
+                      <small class="text-muted">{{ post.liked_by.count() }} Likes</small>
+                  </p>
+                    <!-- Post Actions -->
+                    <div class="d-flex justify-content-between">
 
-    <!-- Post metadata -->
-    <small>Posted on {{ post.date }}</small>
-</div>
-{% endfor %}
-
-
-  <div class="container my-5">
-    <div class="p-5  bg-body-tertiary rounded-3">
-      <h4 class="text-body-emphasis">Basic jumbotron</h4>
-      <img src="static\assets\images\cGl8CK.png" class="py-3 img-fluid rounded mx-auto d-block" alt="..." style="max-width: 300px;max-height: 400px;">
-      <p class="lead mb-auto">
-        This is a simple Bootstrap jumbotron that sits within a <code>.container</code>, recreated with built-in utility classes.
-        This is a simple Bootstrap jumbotron that sits within a <code>.container</code>, recreated with built-in utility classes.
-        This is a simple Bootstrap jumbotron that sits within a <code>.container</code>, recreated with built-in utility classes.
-        This is a simple Bootstrap jumbotron that sits within a <code>.container</code>, recreated with built-in utility classes.
-      </p>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn float-end rounded-5" data-bs-toggle="button">
-            <span class="material-symbols-outlined">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
-                <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-              </svg>
-              </span>
-          </button>
-          <button type="button" class="btn float-end rounded-5">
-            <span class="material-symbols-outlined">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
-                <path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/>
-              </svg>
-              </span>
-          </button>
-          <button type="button" class="btn float-end rounded-5" data-bs-toggle="button">
-            <span class="material-symbols-outlined">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
-                <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-              </svg>
-              </span>
-          </button>
+                      <button id="like-button-{{ post.id }}" class="btn btn-sm btn-danger" onclick="toggleLike({{ post.id }})">
+                        {% if current_user in post.liked_by %}
+                        <i class="bi bi-heart"></i>  Unlike
+                        {% else %}
+                        <i class="bi bi-heart-fill"></i> Like
+                        {% endif %}
+                    </button>
+                        <button class="btn  btn-sm">
+                            <i class="bi bi-chat"></i> Comment
+                        </button>
+                        <button class="btn btn-sm">
+                            <i class="bi bi-share"></i> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-  </div>
+</div>
+{% endblock %}
+
   
 
 
