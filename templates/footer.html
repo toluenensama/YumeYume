@@ -1,0 +1,34 @@
+
+<script src="static/js/bootstrap.bundle.min.js"></script>
+<script>
+        const showMoreButton = document.getElementById('showMore');
+        const showLessButton = document.getElementById('showLess');
+        const hiddenCards = document.querySelectorAll('.hidden-card');
+
+        showMoreButton.addEventListener('click', function () {
+            hiddenCards.forEach(card => card.classList.remove('hidden-card'));
+            showMoreButton.classList.add('d-none');
+            showLessButton.classList.remove('d-none');
+        });
+
+        showLessButton.addEventListener('click', function () {
+            hiddenCards.forEach((card, index) => {
+                if (index >= 4) {
+                    card.classList.add('hidden-card');
+                }
+            });
+            showLessButton.classList.add('d-none');
+            showMoreButton.classList.remove('d-none');
+        });
+</script>
+</body>
+</html>
+
+
+<!-- User keeps track of animes they have watched and mangas they have seen --Done-->
+ <!-- User can post reviews Done-->
+  <!-- User have a dashboard of anime/manga and their genres and informations-->
+   <!-- Get updates on latest releases of their favorite animes -->
+    <!-- User can recieve recommendations -->
+     <!-- User can show their profiles -->
+      <!-- Have a leaderboard ranking users on number of animes watched and genres -->

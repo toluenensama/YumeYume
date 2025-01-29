@@ -1,0 +1,87 @@
+{% include "nav.html" %}
+
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5 gx-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="{{manga['main_picture']['large']}}" class="d-block mx-lg-auto img-fluid" alt="{{manga['title']}}" width="500" height="600" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h4 class="text-body-emphasis mb-3">{{manga['title']}}</h4>
+        <figcaption class="blockquote-footer">
+           ENG: {{manga['alternative_titles']['en']}}
+          </figcaption>
+          <figcaption class="blockquote-footer">
+            JAP: {{manga['alternative_titles']['ja']}}
+           </figcaption>
+        {% for synonym in synonyms: %}
+        <p class="fw-bold fs-6">{{synonym}}</p>
+        {% endfor %}
+        <p >{{manga['synopsis']}}</p>
+        {% if manga['start_date'] %}
+        <p class="fs-6 text-capitalize fw-semibold">Start Date : {{manga['start_date']}}</p>
+        {% endif %}
+        <p class="fs-6 text-capitalize fw-semibold">Number of Chapters : {{manga['num_chapters']}}</p>
+        <p class="fs-6 text-capitalize fw-semibold">Number of Volumes : {{manga['num_volumes']}}</p>
+        <p class="fs-6 text-capitalize fw-semibold">Status : {{manga['status']}}</p>
+
+
+        <div class="d-flex gap-2 py-2">
+            
+            {% for genre in genres: %}
+            <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill">{{genre['name']}}</span>
+            {% endfor %}
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Add Manga
+        </button>
+      </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{manga['title']}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('addmanga', id=manga['id'], title=manga['title']) }}" method="post">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes style="color: brown;">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+          <div class="mb-3">
+            <label class="form-label">Rating</label>
+            <input type="text" name="rating" class="form-control gx-3" id="Rating" placeholder="Rate out of 5" required>
+          </div>
+          <select class="form-select mb-3" aria-label="Default select example" name="status" required>
+            <option selected>Status</option>
+            <option value="Watching">Reading</option>
+            <option value="Rewatching more than once">Reading again more than once</option>
+            <option value="Rewatching">Reading again</option>
+            <option value="Seen">Read</option>
+          </select>
+          <div class="mb-3">
+            <label class="form-label">Overview</label>
+            <input type="text" name="overview" class="form-control gx-3" id="Overview" placeholder="What do you think of {{manga['title']}}" required>
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name="submit">Submit</button>      
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+{% include "footer.html" %}

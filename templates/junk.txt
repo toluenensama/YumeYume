@@ -1,0 +1,216 @@
+<div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5 mb-3">
+</div>
+
+
+  
+    <p>
+      <a href="#">{{movies.index(movie)}} {{movie["original_title"]}} - {{movie["release_date"]}} </a>
+    </p>
+  
+
+        <div class="card mb-3" style="width: 20rem; padding-top: 10px; margin: auto;">
+        <img src="https://image.tmdb.org/t/p/w500/{{movie['poster_path']}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{movies.index(movie)}}  {{movie["original_title"]}}</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <p class="card-text"><small class="text-body-secondary">{{movie["release_date"]}}</small></p>
+        </div>
+      </div>
+
+
+style="background-image: url('https://image.tmdb.org/t/p/w500/{{movie[poster_path]}}'); 
+    background-size: cover;
+     background-position: center center;"
+
+
+             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <a href="{{url_for()}}"></a><button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Add anime</button>
+        </div>
+
+
+        {"id": 12859, "title": "One Piece Film: Z", "main_picture": {"medium": "https://cdn.myanimelist.net/images/anime/6/44297.jpg", 
+        "large": "https://cdn.myanimelist.net/images/anime/6/44297l.jpg"}, "alternative_titles": {"synonyms": ["One Piece Movie 12"], "en": "One Piece Film: Z", "ja": "\u30ef\u30f3\u30d4\u30fc\u30b9\u3000\u30d5\u30a3\u30eb\u30e0\u3000\ufeff\uff3a"}, "synopsis": "The Straw Hat Pirates enter the rough seas of the New World in search of the hidden treasures of the Pirate King, Gol D. Roger\uff0dOne Piece. On their voyage, the pirates come across a terrifying, powerful man, former Marine Admiral Z.\n\nZ is accused of having stolen the \"Dyna Stones\", weapons believed to have the power to shake up the New World. The Marine Headquarters believes Z is about to use it to end the pirate era, and with it, the lives of many innocent people. In fear of such a phenomenal event, marines start to take action against the former admiral.\n\nEven if it means stumbling upon marines and the navy, the Straw Hat Pirates decided to chase after Z and stop him from causing havoc. As they continue to embark on their ventures, the pirates bump into new and familiar acquaintances.", "genres": [{"id": 1, "name": "Action"}, {"id": 2, "name": "Adventure"}, {"id": 10, "name": "Fantasy"}, {"id": 27, "name": "Shounen"}], "num_episodes": 1, "start_season": {"year": 2012, "season": "fall"}
+        , "recommendations": []}
+
+        https://cdn.myanimelist.net/images/anime/6/44297l.jpg
+
+        <svg class="bd-placeholder-img" width="200" height="250" xmlns="https://cdn.myanimelist.net/images/anime/6/44297l.jpg" 
+            role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+
+
+                        <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+              Continue reading
+              <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+            </a>
+
+
+
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg m-5 border-bottom" >
+          <img class="card-img rounded-4" src="{{anime['node']['main_picture']['medium']}}" 
+          style="height: 100%; width: 100%; object-fit: cover;">
+            </div>
+          </div>
+          <a class="col-6 py-5 px-4" href="{{url_for('add',id=anime.node.id)}}">
+            <h3 class="text-md-end"></h3>
+          </a>
+
+
+
+
+
+# return redirect(url_for("profile",ani = an, search=True))
+
+
+{{ url_for('addmanga', id=anime['id'], title=anime['title']) }}
+
+
+
+            <div class="modal-body p-5 pt-0">
+              <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" action="{{ url_for('login') }}" method="post">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                  <ul class=flashes style="color: brown;">
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              {% endwith %}
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required>
+                  <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                  <label for="floatingPassword">Password</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Log In </button>
+                <hr class="my-4">
+              </form>
+            </div>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+
+
+  <span class="border rounded-3"  style="flex: 200px;">
+    <div class="row mb-2 flex-column">
+        <p class="mb-0">{{anime['node']['title']}}<p>
+        <div class="col-auto align-self-baseline">
+          <img src="{{anime['node']['main_picture']['medium']}}" alt="{{anime['node']['title']}}" >
+        </div>
+    </div>
+  </span>
+
+    <div class="col-sm-6 mb-3 mb-sm-0 d-flex flex-wrap">
+    <div class="card" style="width: 18rem;">
+      <img src="{{anime['node']['main_picture']['medium']}}" class="card-img" alt="{{anime['node']['title']}}" style="height: 300px;">
+      <div class="card-body">
+        <p class="card-text">{{anime['node']['title']}}</p>
+      </div>
+    </div>
+  </div>
+
+
+      <div class="col mx-auto border p-1" style="flex: 200px; height: 100px;">
+          <p class="mb-0 p-2">{{anime['node']['title']}}<p>
+    </div>
+    <div class="col mx-auto p-2 d-block">
+      <img src="{{anime['node']['main_picture']['medium']}}" alt="{{anime['node']['title']}}" >
+    </div>
+
+
+
+          <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col">
+            <div class="col p-4 d-flex flex-column position-static">
+
+          </div>
+        </div>
+          <div class="col-auto d-none d-lg-block">
+          </div>
+        </div>
+      </div>
+
+
+        <div class="col d-flex">
+    <div class="row g-0 border rounded flex-md-row mb-4 shadow-sm h-md-250"  style="height: 300px;">
+      <div class="col-auto d-none d-lg-block">      
+        <img src="{{anime['node']['main_picture']['medium']}}" alt="{{anime['node']['title']}}" >
+      </div>
+      <div class="row">          
+        <p class="mb-0 p-2">{{anime['node']['title']}}<p>
+      </div>
+    </div>
+  </div>
+
+
+
+  ####for recommended animes  ################################################################################
+<h2 class="pb-2 border-bottom">This {{season.title()}} {{year}} Animes</h2>
+  <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 py-5" id="animeGrid">
+
+  
+  {% for anime in animes: %}
+<a href="{{url_for('add',id=anime['node']['id'])}}">
+  <div class="colcol {% if loop.index > 4 %}hidden-card{% endif %}">
+    <div class="card text-bg-dark h-100">
+        <img src="{{anime['node']['main_picture']['medium']}}" class="card-img-top" alt="{{anime['node']['title']}}" style="height: 100%; object-fit: cover;">
+        <div class="card-body">
+            <h6 class="card-title text-truncate">{{anime['node']['title']}}</h6>
+        </div>
+    </div>
+</div>
+</a>
+  {% endfor %}
+
+</div>
+<div class="text-center mt-4 float-end"></div>
+  <button class="btn btn-primary" id="showMore">Show More</button>
+  <button class="btn btn-secondary d-none" id="showLess">Show Less</button>
+</div>
+</div>
+###########################################################################################
+
+
+year = str(date.today().strftime("%Y"))
+    season = get_season(date.today().strftime("%B"))
+    parameters = {
+            "sort":"anime_score",
+            "limit":30
+        }
+    headers = {
+        "X-MAL-CLIENT-ID":f"{CLIENT_id}"
+        }
+    response = requests.get(url=f"https://api.myanimelist.net/v2/anime/season/{year}/{season}",
+                        params=parameters,headers=headers)     
+    if response.status_code == 200:   
+        animes = response.json()["data"]        
+        return render_template("index.html",logged_in = current_user.is_authenticated,season = season, year=year,animes=animes, active=True)\
+
+
+
+div class="mb-3">
+              <button class="btn" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <span class="material-symbols-outlined float-end">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
+                    <path d="M440-440ZM120-120q-33 0-56.5-23.5T40-200v-480q0-33 23.5-56.5T120-760h126l74-80h240v80H355l-73 80H120v480h640v-360h80v360q0 33-23.5 56.5T760-120H120Zm640-560v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80ZM440-260q75 0 127.5-52.5T620-440q0-75-52.5-127.5T440-620q-75 0-127.5 52.5T260-440q0 75 52.5 127.5T440-260Zm0-80q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29Z"/>
+                  </svg>
+                  </span>
+              </button>
+              <div class="collapse" id="collapseExample">
+                <div class="input-group">
+                  <input type="file" class="form-control" type="file" name="file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                  <button class="btn btn-outline-secondary" id="inputGroupFileAddon04">
+                    <span class="material-symbols-outlined">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
+                      <path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>  

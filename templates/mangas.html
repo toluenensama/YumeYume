@@ -1,0 +1,59 @@
+{% include "nav.html" %}
+
+<div class="container py-5">
+    <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 ">Hello,{{user.name}}</h1>
+
+    <div class="container py-5" >
+        <h2 class="pb-2 border-bottom">Your Mangas</h2>
+        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Add mangas
+        </button>
+      </div>
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Search manga to add</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="d-flex" role="search" action="{{url_for('shows')}}" method="post">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>      
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="container py-5">
+    <div class="row mb-2 py-5">
+      {% for manga in mangas: %}
+      <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col">
+            <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary-emphasis"><h3 class="mb-0">{{manga.name}}</h3></strong>
+            <div class="mb-1 text-body-secondary">Rating: {{manga.rating}}/5.0</div>
+            <p class="card-text fw-semibold mb-auto py-2">Status: {{manga.status}}</p>
+            <p class="mb-auto py-2">{{manga.review}}</p>
+
+            <div class="mb-auto gap-2 py-2">
+            {% for genre in manga.details['genres']: %}
+            <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill">{{genre['name']}}</span>
+            {% endfor %}
+          </div>
+            <div class="mb-1 text-body-secondary">{{manga.date}}</div>
+
+          </div>
+        </div>
+          <div class="col-auto d-none d-lg-block">
+            <img src="{{manga.details['main_picture']['medium']}}" alt="{{manga.name}}">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+    
+{% include "footer.html" %}

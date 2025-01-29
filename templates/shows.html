@@ -1,0 +1,42 @@
+{% include "nav.html" %}
+ 
+
+<div class="container px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom">Add an anime/manga</h2>
+  <div class="container py-5">
+    <div class="container py-5">
+      {% if manga %}
+      <strong class="d-inline-block mb-2 text-primary-emphasis"><h3 class="mb-0">Mangas</h3></strong>
+      {% for manga in mangas: %}
+      <p><a href="{{url_for('add_manga',id=manga.node.id)}}" class="link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover">{{manga["node"]["title"]}}</a></p>
+      {% endfor %}
+      {% endif %}
+
+      {% if anime %}
+      <strong class="d-inline-block mb-2 text-primary-emphasis"><h3 class="mb-0">Animes</h3></strong>
+      {% for anime in an: %}
+      <p><a href="{{url_for('add',id=anime.node.id)}}" class="link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover">{{anime["node"]["title"]}}</a></p>
+      {% endfor %}
+      {% endif %}
+
+  
+      <strong class="d-inline-block mb-2 text-primary-emphasis"><h3 class="mb-0">Animes</h3></strong>
+      {% for anime in an: %}
+        <p><a href="{{url_for('add',id=anime.node.id)}}" class="link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover">{{anime["node"]["title"]}}</a></p>
+        {% endfor %}
+      <strong class="d-inline-block mb-2 text-primary-emphasis"><h3 class="mb-0">Mangas</h3></strong>
+      {% for manga in mangas: %}
+      <p><a href="{{url_for('add_manga',id=manga.node.id)}}" class="link-light link-offset-2 link-underline-opacity-0 link-underline-opacity-25-hover">{{manga["node"]["title"]}}</a></p>
+      {% endfor %}
+
+
+    </div>
+
+
+    </div>
+
+    </div>
+    
+ 
+  
+{% include "footer.html" %}

@@ -1,0 +1,75 @@
+:root {
+    --bs-primary: orange; /* Change primary color */
+    --bs-secondary: #ffc20c; /* Change secondary color */
+    --bs-success: #198754; /* Change success color */
+    /* Customize other colors as needed */
+    --bs-font-sans-serif: 'Open Sans', sans-serif; /* Change font */
+    --bs-body-font-size: 1rem; /* Change default font size */ 
+  }
+
+  .btn-primary {
+    background-color: #f28908; 
+    border-color: #f28908;
+  }
+
+
+
+.header-text {
+    color: #198754;
+}
+
+.feature-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: .75rem;
+  color: #f28908; 
+  background-image: linear-gradient( #f28908, rgba(225, 97, 6, 0.575));
+}
+.navbar {
+  background-color: #f28908;
+}
+
+.navbar .navbar-brand {	color: whitesmoke;
+    font-size: 24px;}
+
+    .card {
+      perspective: 1000px; /* Adjust for 3D effect */
+      width: 200px; /* Adjust card width */
+      height: 200px; /* Adjust card height */
+  }
+
+  .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s; /* Adjust transition duration */
+  }
+
+  .card:hover .card-inner {
+      transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden; 
+  }
+
+  .card-front {
+      background-color: #fff; 
+      color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+  }
+
+  .card-back {
+      background-color: #007bff; 
+      color: #fff;
+      transform: rotateY(180deg); 
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+  }
+

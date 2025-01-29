@@ -1,0 +1,106 @@
+{% include "nav.html" %}
+
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5 gx-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="{{anime['main_picture']['large']}}" class="d-block mx-lg-auto img-fluid" alt="{{anime['title']}}" width="500" height="600" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h4 class="text-body-emphasis mb-3">{{anime['title']}}</h4>
+        <figcaption class="blockquote-footer">
+           ENG: {{anime['alternative_titles']['en']}}
+          </figcaption>
+          <figcaption class="blockquote-footer">
+            JAP: {{anime['alternative_titles']['ja']}}
+           </figcaption>
+        {% for synonym in synonyms: %}
+        <p class="fw-bold fs-6">{{synonym}}</p>
+        {% endfor %}
+        <p >{{anime['synopsis']}}</p>
+        {% if anime['start_season'] %}
+        <p class="fs-6 text-capitalize fw-semibold">Season : {{anime['start_season']['season']}} - {{anime['start_season']['year']}}</p>
+        {% endif %}
+        <p class="fs-6 text-capitalize fw-semibold">Number of episodes : {{anime['num_episodes']}}</p>
+        <div class="d-flex gap-2 py-2 mb-auto">
+            
+            {% for genre in genres: %}
+            <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill">{{genre['name']}}</span>
+            {% endfor %}
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="btn btn-primary py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Add anime
+        </button>
+      </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{anime['title']}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('addshow', id=anime['id'], title=anime['title']) }}" method="post">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes style="color: brown;">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+          <div class="mb-3">
+            <label class="form-label">Rating</label>
+            <input type="text" name="rating" class="form-control gx-3" id="Rating" placeholder="Rate out of 5" required>
+          </div>
+          <select class="form-select mb-3" aria-label="Default select example" name="status" required>
+            <option selected>Status</option>
+            <option value="Watching">Watching</option>
+            <option value="Rewatching more than once">Rewatching more than once</option>
+            <option value="Rewatching">Rewatching</option>
+            <option value="Seen">Seen</option>
+          </select>
+          <div class="mb-3">
+            <label class="form-label">Overview</label>
+            <input type="text" name="overview" class="form-control gx-3" id="Overview" placeholder="What do you think of {{anime['title']}}" required>
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name="submit">Submit</button>      
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+      </div>
+
+    {% if num_recommendations > 0 %}
+    </div>
+    <h2 class="pb-2 border-bottom py-5">More like {{anime['title']}}</h2>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 py-5" id="animeGrid">
+      {% for anime in recomendations: %}
+    <a href="{{url_for('add',id=anime['node']['id'])}}">
+      <div class="col {% if loop.index > 4 %}hidden-card{% endif %}">
+        <div class="card text-bg-dark h-100">
+            <img src="{{anime['node']['main_picture']['medium']}}" class="card-img-top" alt="{{anime['node']['title']}}" style="height: 100%; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-title text-truncate">{{anime['node']['title']}}</h6>
+            </div>
+        </div>
+    </div>
+    </a>
+
+      {% endfor %}
+<div class="text-center mt-4 float-end"></div>
+  <button class="btn btn-primary" id="showMore">Show More</button>
+  <button class="btn btn-secondary d-none" id="showLess">Show Less</button>
+</div>
+    {% endif %}
+</div>
+{% include "footer.html" %}
+
