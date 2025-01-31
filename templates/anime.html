@@ -47,13 +47,10 @@
           </div>
         </div>
           <div class="col-auto d-none d-lg-block">
-            <a href="{{url_for('add',id=anime.mal_id)}}">
-              <img src="{{anime.details['main_picture']['medium']}}" alt="{{anime.name}}">  
-            </a>
+            <img src="{{anime.details['main_picture']['medium']}}" alt="{{anime.name}}">
           </div>
         </div>
       </div>
-  
       {% endfor %}
     </div>
   </div>

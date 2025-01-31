@@ -29,7 +29,8 @@
                 </ul>
               </li>
             </ul>
-            <ul class="nav justify-content-end">
+
+        <ul class="nav justify-content-end">
 
             {% if logged_in: %}
             <li class="nav-item">
@@ -60,7 +61,8 @@
             </li>
 
             {% endif %}
-            <li class="nav-item">
+            
+          <li class="nav-item">
               <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#navsearch">
                 <span class="material-symbols-outlined">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EFEFEF">
@@ -80,17 +82,12 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                       </form>      
+                    </div>
                   </div>
                 </div>
-              </div>
             </div>
-            </li>
-
-        </ul>
-            <!-- <form class="d-flex" role="search" action="{{url_for('shows')}}" method="post">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form> -->
-          </div>
-        </div>
-      </nav>
+          </li>
+      </ul>
+    </div>
+    </div>
+  </nav>

@@ -167,11 +167,14 @@
                     <div class="d-flex align-items-center mb-3">
                         <img src="{{ post.author.email | gravatar }}" alt="User Avatar" class="rounded-circle me-2" width="40" height="40">
                         <div>
-                            <h6 class="mb-0">{{ current_user.name }}</h6>
+                            <h6 class="mb-0">{{ post.author.name }}</h6>
                             <small class="text-muted">{{ post.date }}</small>
+
                         </div>
                     </div>
-
+                    {% if post.anime_tag_name %}
+                    <p class="text-success">{{ post.anime_tag_name}}</p>
+                    {% endif %}
                     <!-- Post Image -->
                     {% if post.image %}
                     <div class="post-image-container mb-3">
@@ -207,9 +210,5 @@
     </div>
 </div>
 {% endblock %}
-
-  
-
-
 {% include "footer.html" %}
     

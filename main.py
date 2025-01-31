@@ -12,6 +12,7 @@ from flask_gravatar import Gravatar
 from flask_bcrypt import Bcrypt
 from functools import wraps
 import os
+from flask_migrate import Migrate
 from dotenv import find_dotenv,load_dotenv
 import requests
 
@@ -39,6 +40,8 @@ gravatar = Gravatar(app,
                     force_lower=False,
                     use_ssl=False,
                     base_url=None)
+migrate = Migrate(app, db) 
+
 # ckeditor = CKEditor()
 # ckeditor.init_app(app)
 CLIENT_id = os.getenv('CLIENT_id')
@@ -111,6 +114,8 @@ class UserPost(db.Model):
     image = db.Column(db.Text)
     mimetype = db.Column(db.Text)
     date = db.Column(db.String(250), nullable=False)
+    anime_tag_name = db.Column(db.String(200))
+    anime_tag_mal_id = db.Column(db.Integer)
     
     def __repr__(self):
         return '<UserPost %r>' % self.img_name
@@ -210,6 +215,60 @@ def post():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for('home'))
+
+@app.route('/tagged post', methods=['POST', 'GET'])
+@login_required
+def post_tagged():
+    author = Users.query.get(current_user.id)
+    anime_tag_name = request.form.get("tag_name")
+    anime_tag_mal_id = request.form.get("tag_mal_id")
+
+    if anime_tag_name:
+        print("anime_tag_name")
+
+    if request.method == "POST":
+        body = request.form.get("post_body")
+        imagefile = request.files.get("file")
+
+        if not body:
+            flash("Post body cannot be empty.", "error")
+            return redirect(url_for('home', anime_tag_name=anime_tag_name, anime_tag_mal_id=anime_tag_mal_id))
+
+        try:
+            if imagefile and allowed_file(imagefile.filename):
+                filename = secure_filename(imagefile.filename)
+                mimetype = imagefile.mimetype
+                image_data = base64.b64encode(imagefile.read()).decode('utf-8')
+
+                new_post = UserPost(
+                    author=author,
+                    post=body,
+                    img_name=filename,
+                    mimetype=mimetype,
+                    image=image_data,
+                    date=date.today().strftime("%B %d, %Y"),
+                    anime_tag_name=anime_tag_name,
+                    anime_tag_mal_id=anime_tag_mal_id
+                )
+            else:
+                new_post = UserPost(
+                    author=author,
+                    post=body,
+                    date=date.today().strftime("%B %d, %Y"),
+                    anime_tag_mal_id=anime_tag_mal_id,
+                    anime_tag_name=anime_tag_name
+                )
+
+            db.session.add(new_post)
+            db.session.commit()
+            flash("Post created successfully!", "success")
+
+        except Exception as e:
+            db.session.rollback()
+            flash(f"An error occurred: {str(e)}", "error")
+            print(f"Error: {str(e)}")
+
+    return redirect(url_for('home', anime_tag_name=anime_tag_name, anime_tag_mal_id=anime_tag_mal_id))
 
 
 @app.route("/sign up",methods=["GET","POST"])

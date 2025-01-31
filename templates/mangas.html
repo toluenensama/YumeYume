@@ -47,7 +47,10 @@
           </div>
         </div>
           <div class="col-auto d-none d-lg-block">
+            <a href="{{url_for('add_manga',id=manga.mal_id)}}">
             <img src="{{manga.details['main_picture']['medium']}}" alt="{{manga.name}}">
+          </a>
+
           </div>
         </div>
       </div>
