@@ -57,6 +57,8 @@
                   </div> 
                   <input type="hidden" name="tag_name" value="{{ manga['title'] }}">
                   <input type="hidden" name="tag_mal_id" value="{{ manga['id'] }}">
+                  <input type="hidden" name="tag_type" value={{ tag_type }}>
+
                   <div class="input-group col py-2">
                     <input type="file" class="form-control" type="file" name="file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                     <button class="btn btn-outline-secondary" id="inputGroupFileAddon04">
@@ -135,4 +137,58 @@
       </div>
     </div>
   </div>
+  <!-- posts -->
+{% if num_posts > 0 %}
+<div class="container-fluid py-5">
+  <h2 class="pb-2 border-bottom py-5">Posts on {{manga['title']}}</h2>
+
+  <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+          {% for post in all_posts %}
+          <div class="card mb-4 shadow-sm">
+              <div class="card-body">
+                  <!-- Post Header -->
+                  <div class="d-flex align-items-center mb-3">
+                      <img src="{{ post.author.email | gravatar }}" alt="User Avatar" class="rounded-circle me-2" width="40" height="40">
+                      <div>
+                          <h6 class="mb-0">{{ post.author.name }}</h6>
+                          <small class="text-muted">{{ post.date }}</small>
+
+                      </div>
+                  </div>
+                  <!-- Post Image -->
+                  {% if post.image %}
+                  <div class="post-image-container mb-3">
+                      <img src="{{ url_for('serve_image', image_id=post.id) }}" alt="Post Image" class="img-fluid rounded">
+                  </div>
+                  {% endif %}
+                                      <!-- Post Content -->
+                  <p class="card-text">{{ post.post }}</p>
+                  <p class="card-text">
+                    <small class="text-muted">{{ post.liked_by.count() }} Likes</small>
+                </p>
+                  <!-- Post Actions -->
+                  <div class="d-flex justify-content-between">
+
+                    <button id="like-button-{{ post.id }}" class="btn btn-sm btn-danger" onclick="toggleLike({{ post.id }})">
+                      {% if current_user in post.liked_by %}
+                      <i class="bi bi-heart"></i>  Unlike
+                      {% else %}
+                      <i class="bi bi-heart-fill"></i> Like
+                      {% endif %}
+                  </button>
+                      <button class="btn  btn-sm">
+                          <i class="bi bi-chat"></i> Comment
+                      </button>
+                      <button class="btn btn-sm">
+                          <i class="bi bi-share"></i> Share
+                      </button>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+{% endif %}
 {% include "footer.html" %}

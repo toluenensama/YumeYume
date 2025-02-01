@@ -173,7 +173,12 @@
                         </div>
                     </div>
                     {% if post.anime_tag_name %}
-                    <p class="text-success">{{ post.anime_tag_name}}</p>
+                    {% if post.tag_class == "anime" %}
+                   <a href="{{url_for('add',id=post.anime_tag_mal_id)}}"> <small class="text-success link-underline-opacity-0 link-underline-opacity-25-hover">{{ post.anime_tag_name}}</small></a>
+                   {% endif %}
+                   {% if post.tag_class == "manga" %}
+                   <a href="{{url_for('add_manga',id=post.anime_tag_mal_id)}}"><small class="text-success link-underline-opacity-0 link-underline-opacity-25-hover">{{ post.anime_tag_name}}</small></a>
+                    {% endif %}
                     {% endif %}
                     <!-- Post Image -->
                     {% if post.image %}

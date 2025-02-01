@@ -116,6 +116,7 @@ class UserPost(db.Model):
     date = db.Column(db.String(250), nullable=False)
     anime_tag_name = db.Column(db.String(200))
     anime_tag_mal_id = db.Column(db.Integer)
+    tag_class = db.Column(db.Text)
     
     def __repr__(self):
         return '<UserPost %r>' % self.img_name
@@ -222,7 +223,7 @@ def post_tagged():
     author = Users.query.get(current_user.id)
     anime_tag_name = request.form.get("tag_name")
     anime_tag_mal_id = request.form.get("tag_mal_id")
-
+    tag_type = request.form.get("tag_type")
     if anime_tag_name:
         print("anime_tag_name")
 
@@ -248,7 +249,8 @@ def post_tagged():
                     image=image_data,
                     date=date.today().strftime("%B %d, %Y"),
                     anime_tag_name=anime_tag_name,
-                    anime_tag_mal_id=anime_tag_mal_id
+                    anime_tag_mal_id=anime_tag_mal_id,
+                    tag_class = tag_type
                 )
             else:
                 new_post = UserPost(
@@ -256,7 +258,8 @@ def post_tagged():
                     post=body,
                     date=date.today().strftime("%B %d, %Y"),
                     anime_tag_mal_id=anime_tag_mal_id,
-                    anime_tag_name=anime_tag_name
+                    anime_tag_name=anime_tag_name,
+                    tag_class  =tag_type
                 )
 
             db.session.add(new_post)
@@ -268,7 +271,7 @@ def post_tagged():
             flash(f"An error occurred: {str(e)}", "error")
             print(f"Error: {str(e)}")
 
-    return redirect(url_for('home', anime_tag_name=anime_tag_name, anime_tag_mal_id=anime_tag_mal_id))
+    return redirect(url_for('home', anime_tag_name=anime_tag_name, anime_tag_mal_id=anime_tag_mal_id,tag_type = tag_type))
 
 
 @app.route("/sign up",methods=["GET","POST"])
@@ -356,6 +359,8 @@ def shows():
 @login_required
 def add():
     anime_id = request.args.get("id")
+    posts = UserPost.query.filter_by(anime_tag_mal_id = anime_id).all()
+
     parameters = {
             "fields":"id,title,main_picture,alternative_titles,synopsis,genres,num_episodes,start_season,recommendations"
         }
@@ -368,8 +373,8 @@ def add():
         return render_template("add.html",anime = anime, 
                                genres=anime['genres'],
                                synonyms =anime['alternative_titles']['synonyms'],recomendations = anime['recommendations'],
-                               num_recommendations = len(anime['recommendations']))
-
+                               num_recommendations = len(anime['recommendations']),
+                               tag_type = "anime",all_posts = posts,num_posts = len(posts))
     return render_template("add.html")
 
 
@@ -377,6 +382,7 @@ def add():
 @login_required
 def add_manga():
     manga_id = request.args.get("id")
+    posts = UserPost.query.filter_by(anime_tag_mal_id = manga_id).all()
     parameters = {
             "fields":"id,title,main_picture,alternative_titles,synopsis,genres,num_chapters,num_volumes,start_date,related_manga,related_anime,recommendations,status"
         }
@@ -388,9 +394,10 @@ def add_manga():
         manga = response.json()
         return render_template("add_manga.html",manga = manga, 
                                genres=manga['genres'],
-                               synonyms =manga['alternative_titles']['synonyms'])
+                               synonyms =manga['alternative_titles']['synonyms'],
+                               tag_type = "manga" ,all_posts = posts,num_posts = len(posts))
 
-    return render_template("add_manga.html")
+    return render_template("add_manga.html",all_posts = posts,num_posts = len(posts))
 
 
 @app.route("/add",methods=["GET","POST"])
